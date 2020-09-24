@@ -133,3 +133,49 @@ BookInfo.objects.filter(readcount__gt=20,id__lt=3)
 from django.db.models import Q
 
 BookInfo.objects.filter(Q(readcount__gt=20)|Q(id__lt=3))
+
+######## 聚合函数##################
+
+from django.db.models import Sum,Max,Avg,Count
+
+# 模型类名.object.aggregate(Xxx('字段名'))
+BookInfo.objects.aggregate(Sum('readcount'))
+
+############ 排序 ##################
+BookInfo.objects.all().order_by('readcount')
+BookInfo.objects.all().order_by('-readcount')
+
+##########################
+
+# 查询书籍为1的所有人物信息
+# 获取了id为1的书籍
+book = BookInfo.objects.get(id=1)
+book.peopleinfo_set.all()
+
+
+
+# 查询人物为1的书籍信息
+
+person = PeopleInfo.objects.get(id=1)
+person.book.name
+person.book.readcount
+
+############# 关联过滤查询 ###############
+
+# 查询图书，要求图书人物为"郭靖"
+BookInfo.objects.filter(peopleinfo__name__exact='郭靖')
+BookInfo.objects.filter(peopleinfo__name='郭靖')
+
+
+# 查询图书，要求图书中人物的描述包含"八"
+BookInfo.objects.filter(peopleinfo__description__contains='八')
+
+########################$$$$$$$$$$$$$$
+
+
+# 查询书名为“天龙八部”的所有人物
+PeopleInfo.objects.filter(book__name='天龙八部')
+PeopleInfo.objects.filter(book__name__exact='天龙八部')
+
+# 查询图书阅读量大于30的所有人物
+PeopleInfo.objects.filter(book__readcount__gt=30)

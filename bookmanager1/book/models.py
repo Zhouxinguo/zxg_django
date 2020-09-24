@@ -49,3 +49,9 @@ class PeopleInfo(models.Model):
 
     def __str__(self):
         return self.name
+
+class Dog(object):
+    pass
+
+class Person(object):
+    pass
