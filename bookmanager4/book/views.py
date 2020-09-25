@@ -63,4 +63,27 @@ BookInfo.objects.filter(pub_date__gt='1990-1-1')
 
 
 
+#查询阅读量大于等于评论量的图书
+from django.db.models import F, Q
 
+BookInfo.objects.filter(readcount__gte=F('commentcount'))
+
+#查询阅读量大于2倍评论量的图书。
+BookInfo.objects.filter(readcount__gt=F('commentcount')*2)
+
+
+# 查询阅读量大于20，并且编号小于3的图书。
+
+BookInfo.objects.filter(readcount__gt=20,id__lt=3)
+
+BookInfo.objects.filter(readcount__gt=20).filter(id__lt=3)
+
+# F和Q对象
+# 查询阅读量大于20的图书，改写为Q对象如下。
+BookInfo.objects.filter(Q(readcount__gt=20))
+
+# 查询阅读量大于20，或编号小于3的图书，只能使用Q对象实现
+BookInfo.objects.filter(Q(readcount__gt=20)|Q(id__lt=3))
+
+# 查询编号不等于3的图书。
+BookInfo.objects.filter(~Q(id=3))
