@@ -87,3 +87,58 @@ BookInfo.objects.filter(Q(readcount__gt=20)|Q(id__lt=3))
 
 # 查询编号不等于3的图书。
 BookInfo.objects.filter(~Q(id=3))
+
+
+#聚合函数
+# 查询图书的总阅读量
+from django.db.models import Sum
+BookInfo.objects.aggregate(Sum('readcount'))
+
+
+# 排序
+BookInfo.objects.all().order_by('readcount')
+BookInfo.objects.all().order_by('-readcount')
+
+# 关联查询
+# 查询书籍为1的所有人物信息
+
+book = BookInfo.objects.get(id=1)
+book.peopleinfo_set.all()
+
+
+# 多对应的模型类对象.多对应的模型类中的关系类属性名
+# 查询人物为1的书籍信息
+from book.models import PeopleInfo
+person = PeopleInfo.objects.get(id=3)
+person.book
+
+
+# 关联过滤查询
+# 查询图书，要求图书人物为"郭靖"
+book = BookInfo.objects.filter(peopleinfo__name='郭靖')
+book
+
+# 查询图书，要求图书中人物的描述包含"八"
+book = BookInfo.objects.filter(peopleinfo__description__contains='八')
+book
+
+
+# 查询书名为“天龙八部”的所有人物
+people = PeopleInfo.objects.filter(book__name='天龙八部')
+people
+
+# 查询图书阅读量大于30的所有人物
+people = PeopleInfo.objects.filter(book__readcount__gt=30)
+people
+
+
+#查询数据
+books = BookInfo.objects.all()
+#导入分页类
+from django.core.paginator import Paginator
+#创建分页实例
+paginator=Paginator(books,2)
+#获取指定页码的数据
+page_books = paginator.page(1)
+#获取分页数据
+total_page=paginator.num_pages
