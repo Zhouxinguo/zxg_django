@@ -51,16 +51,18 @@ from django.http import JsonResponse
 #     return HttpResponse('okk')
 
 
+
+
 def creates(request):
     return HttpResponse('creates')
+
+def goods(request,cat_id,moblie):
+    return JsonResponse({'cat_id':cat_id,'moblie':moblie})
 
 def shop(request):
     query_params = request.GET
     print(query_params)
     return HttpResponse('shop')
-
-def goods(request,cat_id,moblie):
-    return JsonResponse({'cat_id':cat_id,'moblie':moblie})
 
 def register(request):
     data = request.POST
