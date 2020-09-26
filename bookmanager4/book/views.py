@@ -80,4 +80,27 @@ def baidu(request):
     return redirect('https://www.baidu.com')
 
 
+######### Cookie ###############
+def set_cookie(request):
 
+    # 1.获取查询字符串数据
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    # 2.服务器设置cookie信息
+    # 通过响应对象.set_cookie 方法
+    response = HttpResponse('set_cookie')
+    # key,value=''
+    response.set_cookie('name',username)
+    response.set_cookie('password',password,max_age=3600)
+
+    response.delete_cookie('name')
+
+    return response
+
+def get_cookie(request):
+
+    # 获取cookie
+    print(request.COOKIES)
+    name = request.COOKIES.get('name')
+
+    return HttpResponse(name)
