@@ -1,6 +1,7 @@
 from django.urls import path
 from book.views import creates,goods,shop,register
-from book.views import json,method
+from book.views import json,method,response
+from book.views import jsonres,baidu
 
 from django.urls import converters
 from django.urls.converters import register_converter
@@ -24,5 +25,8 @@ urlpatterns = [
     path('register/',register),
     path('json/',json),
     path('method/',method),
+    path('res/',response),
+    path('jsres/',jsonres),
+    path('baidu/',baidu),
 
 ]
