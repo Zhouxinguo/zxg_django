@@ -1,3 +1,4 @@
+
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -5,6 +6,8 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.http import JsonResponse
+
+
 
 def creates(request):
 
@@ -128,3 +131,30 @@ def get_session(request):
 
     content = '{},{}'.format(user_id,username)
     return HttpResponse(content)
+
+
+
+
+
+
+
+########### 类视图 #############
+from django.views.generic import View
+
+class LoginView(View):
+
+    def get(self,request):
+        return HttpResponse('GET GET GET')
+
+    def post(self,request):
+        return HttpResponse('POST POST POST')
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+class OrderView(LoginRequiredMixin,View):
+    def get(self,request):
+
+        return HttpResponse('GET 我的订单页面,这个页面必须登录')
+
+    def post(self,request):
+        return HttpResponse('POST 我的订单页面,这个页面必须登录')

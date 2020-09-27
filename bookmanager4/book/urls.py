@@ -3,6 +3,7 @@ from book.views import creates,goods,shop,register
 from book.views import json,method,response
 from book.views import jsonres,baidu,set_cookie,get_cookie
 from book.views import set_session,get_session
+from book.views import LoginView,OrderView
 
 from django.urls import converters
 from django.urls.converters import register_converter
@@ -34,4 +35,6 @@ urlpatterns = [
     path('set_session/', set_session),
     path('get_session/', get_session),
 
+    path('login/',LoginView.as_view()),
+    path('order/',OrderView.as_view()),
 ]
